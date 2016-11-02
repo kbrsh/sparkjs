@@ -1,3 +1,10 @@
+/*
+* Spark v0.0.0
+* Copyright 2016, Kabir Shah
+* https://github.com/KingPixil//
+* Free to use under the MIT license.
+* https://kingpixil.github.io/license
+*/
 var Spark = {
   markov: markov,
   classifier: classifier
