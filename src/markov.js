@@ -10,10 +10,10 @@ markov.prototype.seed = function(data) {
     var words = toWords(data[i]);
     this.starters.push(words[0]);
     for (var j = 0; j < words.length; j++) {
-      if (map.hasOwnProperty(words[j])) {
-        map[words[j]].push(words[j + 1]);
+      if (this.map.hasOwnProperty(words[j])) {
+        this.map[words[j]].push(words[j + 1]);
       } else {
-        map[words[j]] = [words[j + 1]];
+        this.map[words[j]] = [words[j + 1]];
       }
     }
   }
@@ -33,17 +33,19 @@ markov.prototype.clear = function() {
   this.starters = [];
 }
 
-markov.prototype.generate = function(data) {
-
+markov.prototype.train = function(data) {
   this.seed(data);
+}
+
+markov.prototype.generate = function() {
   var word = this.randomElement(this.starters);
   this.sentence.push(word);
 
-  while(map.hasOwnProperty(word)) {
+  while(this.map.hasOwnProperty(word)) {
     var lastWord = this.sentence[this.sentence.length - 1];
-    word = this.randomElement(map[lastWord]);
+    word = this.randomElement(this.map[lastWord]);
     this.sentence.push(word);
-    if (this.sentence.length > (this.opts.min) && this.sentence.length < (this.opts.max) && map[lastWord] === [null]) break;
+    if (this.sentence.length > (this.opts.min) && this.sentence.length < (this.opts.max) && this.map[lastWord] === [null]) break;
   }
   var readableSentence = this.sentence.join(" ");
   this.clear();
