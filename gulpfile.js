@@ -6,5 +6,6 @@ var concat = require('gulp-concat');
 gulp.task('default', function() {
   return gulp.src(['./index.js', './src/*.js'])
     .pipe(concat('spark.js'))
+    .pipe(size())
     .pipe(gulp.dest('./dist/'));
 });
