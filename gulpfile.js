@@ -13,6 +13,7 @@ gulp.task('build', function() {
 
 gulp.task('minify', function() {
   return gulp.src('./dist/spark.js')
+    .pipe(uglify())
     .pipe(concat('spark.min.js'))
     .pipe(size())
     .pipe(gulp.dest('./dist/'));
