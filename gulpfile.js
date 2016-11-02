@@ -12,8 +12,8 @@ gulp.task('build', function() {
 });
 
 gulp.task('minify', function() {
-  return gulp.src(['./index.js', './src/*.js'])
-    .pipe(concat('spark.js'))
+  return gulp.src('./dist/spark.js')
+    .pipe(concat('spark.min.js'))
     .pipe(size())
     .pipe(gulp.dest('./dist/'));
 });
