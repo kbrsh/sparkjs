@@ -7,7 +7,7 @@ function markov(opts) {
 
 markov.prototype.seed = function(data) {
   for (var i = 0; i < data.length; i++) {
-    var words = toWords(data[i]);
+    var words = this.toWords(data[i]);
     this.starters.push(words[0]);
     for (var j = 0; j < words.length; j++) {
       if (this.map.hasOwnProperty(words[j])) {
