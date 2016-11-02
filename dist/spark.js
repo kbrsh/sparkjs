@@ -3,14 +3,14 @@ var Spark = {
   classifier: classifier
 }
 
-function naiv() {
+function classifier() {
   this.data = {};
   this.total = 0;
   this.vocab = [];
   this.frequency = {};
   this.confidence = 0;
 }
-naiv.prototype.train = function(label, text) {
+classifier.prototype.train = function(text, label) {
   var words = text.split(/[\s]/gi);
   if (!this.data[label]) {
     this.data[label] = {
@@ -25,7 +25,7 @@ naiv.prototype.train = function(label, text) {
   this.total += words.length;
 }
 
-naiv.prototype.seed = function() {
+classifier.prototype.seed = function() {
   for (var label in this.data) {
     var category = this.data[label];
 
@@ -57,7 +57,7 @@ naiv.prototype.seed = function() {
   }
 }
 
-naiv.prototype.classify = function(text) {
+classifier.prototype.classify = function(text) {
   var choice = null;
   var prob = 0;
   var max = 0;
