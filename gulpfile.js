@@ -17,3 +17,5 @@ gulp.task('minify', function() {
     .pipe(size())
     .pipe(gulp.dest('./dist/'));
 });
+
+gulp.task('default', ['build', 'minify']);
