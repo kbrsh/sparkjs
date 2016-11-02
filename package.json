@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KingPixil/spark/issues"
   },
-  "homepage": "https://github.com/KingPixil/spark#readme"
+  "homepage": "https://github.com/KingPixil/spark#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
 }
