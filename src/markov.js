@@ -1,9 +1,10 @@
-var sentence = [];
-var map = {};
-var starters = [];
+function markov(opts) {
+  var sentence = [];
+  var map = {};
+  var starters = [];
+}
 
-
-function seed(data) {
+markov.prototype.seed(data) {
   for (var i = 0; i < data.length; i++) {
     var words = toWords(data[i]);
     starters.push(words[0]);
@@ -17,25 +18,22 @@ function seed(data) {
   }
 }
 
-function randomElement(arr) {
+markov.prototype.randomElement(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function toWords(str) {
+markov.prototype.toWords(str) {
   return str.split(" ");
 }
 
-function toChars(str) {
-	return str.split("");
-}
-
-function clear() {
+markov.prototype.clear() {
   sentence = [];
   map = {};
   starters = [];
 }
 
-module.exports = function(data, opts) {
+markov.prototype.generate(data, opts) {
+
   seed(data);
   var word = randomElement(starters);
   sentence.push(word);
