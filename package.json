@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/KingPixil/spark#readme",
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-uglifyjs": "^0.6.2"
   }
 }
