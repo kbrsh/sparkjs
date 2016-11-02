@@ -1,3 +1,7 @@
-var Spark = function() {
-  
+
+var Spark = {
+
 }
+
+// @include ./markov.js
+// @include ./classifier.js
