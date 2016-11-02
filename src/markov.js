@@ -1,13 +1,14 @@
 function markov(opts) {
-  var sentence = [];
-  var map = {};
-  var starters = [];
+  this.sentence = [];
+  this.map = {};
+  this.starters = [];
+  this.opts = opts;
 }
 
-markov.prototype.seed(data) {
+markov.prototype.seed = function(data) {
   for (var i = 0; i < data.length; i++) {
     var words = toWords(data[i]);
-    starters.push(words[0]);
+    this.starters.push(words[0]);
     for (var j = 0; j < words.length; j++) {
       if (map.hasOwnProperty(words[j])) {
         map[words[j]].push(words[j + 1]);
@@ -18,33 +19,33 @@ markov.prototype.seed(data) {
   }
 }
 
-markov.prototype.randomElement(arr) {
+markov.prototype.randomElement = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-markov.prototype.toWords(str) {
+markov.prototype.toWords = function(str) {
   return str.split(" ");
 }
 
-markov.prototype.clear() {
-  sentence = [];
-  map = {};
-  starters = [];
+markov.prototype.clear = function() {
+  this.sentence = [];
+  this.map = {};
+  this.starters = [];
 }
 
-markov.prototype.generate(data, opts) {
+markov.prototype.generate = function(data) {
 
-  seed(data);
-  var word = randomElement(starters);
-  sentence.push(word);
+  this.seed(data);
+  var word = this.randomElement(this.starters);
+  this.sentence.push(word);
 
   while(map.hasOwnProperty(word)) {
-    var lastWord = sentence[sentence.length - 1];
-    word = randomElement(map[lastWord]);
-    sentence.push(word);
-    if (sentence.length > (opts.min) && sentence.length < (opts.max) && map[lastWord] === [null]) break;
+    var lastWord = this.sentence[this.sentence.length - 1];
+    word = this.randomElement(map[lastWord]);
+    this.sentence.push(word);
+    if (this.sentence.length > (this.opts.min) && this.sentence.length < (this.opts.max) && map[lastWord] === [null]) break;
   }
-  var readableSentence = sentence.join(" ");
-  clear();
+  var readableSentence = this.sentence.join(" ");
+  this.clear();
   return readableSentence;
 }
