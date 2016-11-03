@@ -17,7 +17,7 @@ function classifier() {
   this.frequency = {};
   this.confidence = 0;
 }
-classifier.prototype.train = function(label, text) {
+classifier.prototype.train = function(text, label) {
   var words = text.split(/[\s]/gi);
   if (!this.data[label]) {
     this.data[label] = {
