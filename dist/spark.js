@@ -91,14 +91,14 @@ classifier.prototype.classify = function(text) {
   return choice;
 }
 
-function markov(opts) {
+function generator(opts) {
   this.sentence = [];
   this.map = {};
   this.starters = [];
   this.opts = opts;
 }
 
-markov.prototype.seed = function(data) {
+generator.prototype.seed = function(data) {
   for (var i = 0; i < data.length; i++) {
     var words = this.toWords(data[i]);
     this.starters.push(words[0]);
@@ -112,25 +112,25 @@ markov.prototype.seed = function(data) {
   }
 }
 
-markov.prototype.randomElement = function(arr) {
+generator.prototype.randomElement = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-markov.prototype.toWords = function(str) {
+generator.prototype.toWords = function(str) {
   return str.split(" ");
 }
 
-markov.prototype.clear = function() {
+generator.prototype.clear = function() {
   this.sentence = [];
   this.map = {};
   this.starters = [];
 }
 
-markov.prototype.train = function(data) {
+generator.prototype.train = function(data) {
   this.seed(data);
 }
 
-markov.prototype.generate = function() {
+generator.prototype.generate = function() {
   var word = this.randomElement(this.starters);
   this.sentence.push(word);
 
