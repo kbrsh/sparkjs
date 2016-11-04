@@ -37,7 +37,7 @@ responder.prototype.train = function(data) {
   this.seed(data);
 }
 
-responder.prototype.generate = function() {
+responder.prototype.generate = function(text) {
   var word = this.randomElement(this.starters);
   this.sentence.push(word);
 
