@@ -2,7 +2,7 @@
   "name": "sparkai",
   "version": "0.0.0",
   "description": "AI",
-  "main": "index.js",
+  "main": "dist/spark.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
