@@ -2,7 +2,10 @@ function generator(opts) {
   this.sentence = [];
   this.map = {};
   this.starters = [];
-  this.opts = opts;
+  this.opts = opts || {
+    min: 2,
+    max: 5
+  };
 }
 
 generator.prototype.seed = function(data) {
@@ -45,7 +48,7 @@ generator.prototype.generate = function() {
     var lastWord = this.sentence[this.sentence.length - 1];
     word = this.randomElement(this.map[lastWord]);
     this.sentence.push(word);
-    if (this.sentence.length > (this.opts.min || 2) && this.sentence.length < (this.opts.max || 5) && this.map[lastWord] === [null]) break;
+    if (this.sentence.length > (this.opts.min) && this.sentence.length < (this.opts.max) && this.map[lastWord] === [null]) break;
   }
   var readableSentence = this.sentence.join(" ");
   this.clear();
