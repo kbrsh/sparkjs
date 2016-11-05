@@ -1,5 +1,5 @@
 var Spark = {
-  markov: markov,
+  generator: generator,
   classifier: classifier
 }
 
