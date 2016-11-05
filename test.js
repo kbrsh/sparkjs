@@ -5,6 +5,6 @@ var bot = new spark.generator({
   max: 3
 });
 
-bot.train(["Hello World Dude"], "Hey How World Is Life");
+bot.train(["Hello World Dude", "Hey How World Is Life"]);
 
 console.log(bot.generate())
