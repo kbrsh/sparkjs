@@ -1,6 +1,6 @@
 {
   "name": "sparkai",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "AI",
   "main": "dist/spark.min.js",
   "scripts": {
