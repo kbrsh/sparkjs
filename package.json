@@ -16,7 +16,7 @@
     "url": "https://github.com/KingPixil/spark/issues"
   },
   "homepage": "https://github.com/KingPixil/spark#readme",
-  "dependencies": {
+  "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-header": "^1.8.8",
