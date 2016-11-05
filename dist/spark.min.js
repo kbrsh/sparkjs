@@ -1,5 +1,5 @@
 /*
-* Spark v0.0.1
+* Spark v0.0.0
 * Copyright 2016, Kabir Shah
 * https://github.com/KingPixil//
 * Free to use under the MIT license.
