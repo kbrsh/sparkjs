@@ -10,6 +10,10 @@ var Spark = {
   classifier: classifier
 }
 
+if(typeof window === 'undefined') {
+  module.exports = Spark;
+}
+
 function classifier() {
   this.data = {};
   this.total = 0;
