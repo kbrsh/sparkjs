@@ -6,7 +6,7 @@
 * https://kingpixil.github.io/license
 */
 var Spark = {
-  markov: markov,
+  generator: generator,
   classifier: classifier
 }
 
