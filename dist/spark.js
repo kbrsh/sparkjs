@@ -129,8 +129,6 @@ generator.prototype.toWords = function(str) {
 
 generator.prototype.clear = function() {
   this.sentence = [];
-  this.map = {};
-  this.starters = [];
 }
 
 generator.prototype.train = function(data) {
