@@ -1,80 +1,80 @@
-function classifier() {
-  this.data = {};
-  this.total = 0;
-  this.vocab = [];
-  this.frequency = {};
-  this.confidence = 0;
-}
-classifier.prototype.train = function(text, label) {
-  var words = text.split(/[\s]/gi);
-  if (!this.data[label]) {
-    this.data[label] = {
-      words: words,
-      frequency: {},
-      total: 1
-    };
-  } else {
-    this.data[label].words.push.apply(this.data[label].words, words);
-    this.data[label].total++;
-  }
-  this.total += words.length;
-}
-
-classifier.prototype.seed = function() {
-  for (var label in this.data) {
-    var category = this.data[label];
-
-    category.prior = category.words.length / this.total;
-
-    for (var word in category.words) {
-      if (!category.frequency[category.words[word]]) {
-        category.frequency[category.words[word]] = 1;
-      } else {
-        category.frequency[category.words[word]]++;
-      }
-
-      if (this.vocab.indexOf(category.words[word]) === -1) {
-        this.vocab.push(category.words[word]);
-      }
-
-      if (!this.frequency[category.words[word]]) {
-        this.frequency[category.words[word]] = 1;
-      } else {
-        this.frequency[category.words[word]]++;
-      }
+function Classifier(opts) {
+	this.opts = opts || {};
+	this.vocab = {};
+  this.totalVocab = {};
+  this.documents = {};
+  this.totalDocs = 0;
+	this.train = function(doc, label) {
+  	var words = doc.split(" ");
+    this.totalDocs++;
+  	if(!this.vocab[label]) {
+    	this.vocab[label] = {};
+    }
+    if(!this.documents[label]) {
+    	this.documents[label] = 1;
+    } else {
+    	this.documents[label]++;
     }
 
-    var uniqueWords = category.words.filter(function(item, pos) {
-      return category.words.indexOf(item) == pos;
-    });
-    category.words = uniqueWords;
-
-  }
-}
-
-classifier.prototype.classify = function(text) {
-  var choice = null;
-  var prob = 0;
-  var max = 0;
-  var words = text.split(/[\s]/gi);
-  this.seed();
-
-  for (var i = 0; i < words.length; i++) {
-    var word = words[i];
-
-    for (var category in this.data) {
-      if (this.data[category].frequency[word]) {
-        prob += ((this.data[category].frequency[word] / this.data[category].total) * (this.data[category].prior)) / (this.frequency[word] / this.total)
-      } else {
-        prob += (1 - this.data[category].prior);
-      }
-      if (prob > max) {
-        max = prob;
-        prob = 0;
-        choice = category;
-      }
+    if(!this.totalVocab[label]) {
+    	this.totalVocab[label] = 0;
     }
 
+    for(var i = 0; i < words.length; i++) {
+     var word = words[i];
+     this.totalVocab[label]++;
+     if(this.vocab[label][word] === undefined) {
+     		this.vocab[label][word] = 1;
+     } else {
+       	this.vocab[label][word]++;
+     }
+    }
   }
-  return choice;
+
+  this.getPriorProb = function(docs, total) {
+  	return docs / total;
+  }
+
+  this.max = function(obj) {
+  	return Object.keys(obj).reduce(function(a, b){ return obj[a] > obj[b] ? a : b });
+  }
+
+  this.toObj = function(arr) {
+  	var obj = {};
+  	for(var i = 0; i < arr.length; i++) {
+    	obj[arr[i]] ? obj[arr[i]]++ : obj[arr[i]] = 1;
+    }
+    return obj;
+  }
+
+  this.getState = function() {
+  	return {
+    	vocab: this.vocab,
+      totalVocab: this.totalVocab,
+      documents: this.totalDocuments,
+      totalDocs: this.totalDocs
+    }
+  }
+
+
+  this.classify = function(text) {
+  	var chances = {};
+    var words = this.toObj(text.split(" "));
+
+  	for(var label in this.vocab) {
+    	var prior = this.getPriorProb(this.documents[label], this.totalDocs);
+    	chances[label] = prior;
+      for(var word in this.vocab[label]) {
+      	if(words[word]) {
+        	chances[label] *= (this.vocab[label][word] + 1) / (this.documents[label] + this.totalVocab[label]);
+        } else {
+        	chances[label] *= 1 - ((this.vocab[label][word] + 1) / (this.documents[label] + this.totalVocab[label]));
+        }
+      }
+
+      chances[label] = (chances[label] / prior) + ((1 - chances[label])*(1 - prior));
+    }
+    var choice = this.max(chances);
+  	return this.opts.verbose ? {confidence: chances, choice: choice} : choice;
+  }
 }
