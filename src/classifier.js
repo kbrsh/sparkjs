@@ -1,4 +1,4 @@
-function Classifier(opts) {
+function classifier(opts) {
 	this.opts = opts || {};
 	this.vocab = {};
   this.totalVocab = {};
