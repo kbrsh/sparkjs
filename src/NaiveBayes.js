@@ -1,4 +1,4 @@
-function classifier(opts) {
+function NaiveBayes(opts) {
 	this.opts = opts || {};
 	this.vocab = {};
   this.totalVocab = {};
@@ -31,15 +31,15 @@ function classifier(opts) {
     }
   }
 
-  this.getPriorProb = function(docs, total) {
+  NaiveBayes.getPriorProb = function(docs, total) {
   	return docs / total;
   }
 
-  this.max = function(obj) {
+  NaiveBayes.max = function(obj) {
   	return Object.keys(obj).reduce(function(a, b){ return obj[a] > obj[b] ? a : b });
   }
 
-  this.toObj = function(arr) {
+  NaiveBayes.toObj = function(arr) {
   	var obj = {};
   	for(var i = 0; i < arr.length; i++) {
     	obj[arr[i]] ? obj[arr[i]]++ : obj[arr[i]] = 1;
@@ -47,7 +47,7 @@ function classifier(opts) {
     return obj;
   }
 
-  this.getState = function() {
+  NaiveBayes.getState = function() {
   	return {
     	vocab: this.vocab,
       totalVocab: this.totalVocab,
@@ -57,7 +57,7 @@ function classifier(opts) {
   }
 
 
-  this.classify = function(text) {
+  NaiveBayes.classify = function(text) {
   	var chances = {};
     var words = this.toObj(text.split(" "));
 
