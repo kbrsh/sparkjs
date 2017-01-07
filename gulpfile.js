@@ -9,7 +9,7 @@ var comment = '\/*\r\n* Spark v0.1.2\r\n* Copyright 2016, Kabir Shah\r\n* https:
 
 gulp.task('build', function() {
   return gulp.src(['./src/index.js'])
-    .pipe($.include())
+    .pipe(include())
     .pipe(concat('spark.js'))
     .pipe(header(comment))
     .pipe(size())
