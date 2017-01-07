@@ -22,5 +22,8 @@
     "gulp-header": "^1.8.8",
     "gulp-size": "^2.1.0",
     "gulp-uglifyjs": "^0.6.2"
+  },
+  "dependencies": {
+    "gulp-include": "^2.3.1"
   }
 }
