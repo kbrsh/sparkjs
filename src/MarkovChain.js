@@ -68,6 +68,10 @@ MarkovChain.prototype.generate = function(opts) {
   return text.join(' ');
 }
 
+MarkovChain.prototype.predict = function(gram) {
+	return randomItemFromArray(this.map[gram]);
+}
+
 MarkovChain.prototype.getState = function() {
 	return this;
 }
