@@ -4,7 +4,6 @@ var randomItemFromArray = function(arr) {
 
 function MarkovChain(opts) {
 	opts = opts || {};
-	this.data = data;
   this.map = {};
   this.frequency = {};
   this.lines = [];
