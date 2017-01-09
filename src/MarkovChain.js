@@ -60,7 +60,7 @@ MarkovChain.prototype.generate = function(opts) {
   	var next = randomItemFromArray(this.map[currentWord]);
     text.push(next);
     currentWord = next;
-    if(this.endWords.hasOwnProperty(next) || this.map[next] === [undefined] || /\\end\{.+\}/g.test(next)) sentenceCount++;
+    if(this.endWords.hasOwnProperty(next) || this.map[next] === [undefined]) sentenceCount++;
     if(sentenceCount === this.sentences) break;
   }
   return text.join(' ');
