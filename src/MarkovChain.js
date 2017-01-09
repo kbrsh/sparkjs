@@ -2,7 +2,7 @@ var randomItemFromArray = function(arr) {
 	return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function MarkovChain(data, opts) {
+function MarkovChain(opts) {
 	opts = opts || {};
 	this.data = data;
   this.map = {};
@@ -12,10 +12,10 @@ function MarkovChain(data, opts) {
   this.startWords = [];
   this.sentences = opts.sentences || 3;
   this.endWords = {};
-  this.init();
 }
 
-MarkovChain.prototype.init = function() {
+MarkovChain.prototype.train = function(data) {
+	this.data = data;
   this.lines = this.data.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
   for(var i = 0; i < this.lines.length; i++) {
   	var line = this.lines[i];
