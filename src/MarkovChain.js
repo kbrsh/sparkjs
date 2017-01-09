@@ -56,9 +56,7 @@ MarkovChain.prototype.generate = function(opts) {
 	var currentWord = this.start;
   var sentenceCount = 0;
   var text = [currentWord];
-  var i = 0;
   while(this.map.hasOwnProperty(currentWord)) {
-  	i++;
   	var next = randomItemFromArray(this.map[currentWord]);
     text.push(next);
     currentWord = next;
