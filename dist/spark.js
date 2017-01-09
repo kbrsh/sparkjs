@@ -27,6 +27,7 @@
     this.startWords = opts.startWords || [];
     this.sentences = opts.sentences || 3;
     this.endWords = opts.endWords || {};
+  	this.data = opts.data || "";
   }
   
   MarkovChain.prototype.train = function(data) {
