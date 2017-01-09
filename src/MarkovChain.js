@@ -4,13 +4,13 @@ var randomItemFromArray = function(arr) {
 
 function MarkovChain(opts) {
 	opts = opts || {};
-  this.map = {};
-  this.frequency = {};
-  this.lines = [];
-  this.vocab = [];
-  this.startWords = [];
+  this.map = opts.map || {};
+  this.frequency = opts.frequency || {};
+  this.lines = opts.lines || [];
+  this.vocab = opts.vocab || [];
+  this.startWords = opts.startWords || [];
   this.sentences = opts.sentences || 3;
-  this.endWords = {};
+  this.endWords = opts.endWords || {};
 }
 
 MarkovChain.prototype.train = function(data) {
@@ -66,4 +66,8 @@ MarkovChain.prototype.generate = function(opts) {
     if(sentenceCount === this.sentences) break;
   }
   return text.join(' ');
+}
+
+MarkovChain.prototype.getState = function() {
+	return this;
 }
