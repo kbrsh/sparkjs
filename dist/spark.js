@@ -18,20 +18,19 @@
   	return arr[Math.floor(Math.random()*arr.length)];
   }
   
-  function MarkovChain(data, opts) {
+  function MarkovChain(opts) {
   	opts = opts || {};
-  	this.data = data;
-    this.map = {};
-    this.frequency = {};
-    this.lines = [];
-    this.vocab = [];
-    this.startWords = [];
+    this.map = opts.map || {};
+    this.frequency = opts.frequency || {};
+    this.lines = opts.lines || [];
+    this.vocab = opts.vocab || [];
+    this.startWords = opts.startWords || [];
     this.sentences = opts.sentences || 3;
-    this.endWords = {};
-    this.init();
+    this.endWords = opts.endWords || {};
   }
   
-  MarkovChain.prototype.init = function() {
+  MarkovChain.prototype.train = function(data) {
+  	this.data = data;
     this.lines = this.data.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
     for(var i = 0; i < this.lines.length; i++) {
     	var line = this.lines[i];
@@ -73,16 +72,23 @@
   	var currentWord = this.start;
     var sentenceCount = 0;
     var text = [currentWord];
-    var i = 0;
     while(this.map.hasOwnProperty(currentWord)) {
-    	i++;
     	var next = randomItemFromArray(this.map[currentWord]);
       text.push(next);
       currentWord = next;
-      if(this.endWords.hasOwnProperty(next) || this.map[next] === [undefined] || /\\end\{.+\}/g.test(next)) sentenceCount++;
-      if(sentenceCount === this.sentences) break;
+      if(this.endWords.hasOwnProperty(next) || this.map[next] === [undefined]) {
+  			break;
+  		}
     }
     return text.join(' ');
+  }
+  
+  MarkovChain.prototype.predict = function(gram) {
+  	return randomItemFromArray(this.map[gram]);
+  }
+  
+  MarkovChain.prototype.getState = function() {
+  	return this;
   }
   
   function NaiveBayes(opts) {
