@@ -4,11 +4,31 @@ AI In Javascript
 
 ### Get Started
 
-Coming soon!
+```sh
+npm install sparkai
+```
+
+```js
+var Spark = require('sparkai');
+```
 
 ### Documentation
 
-Coming soon!
+**Markov Chains**
+
+Spark comes built in with a Markov Chain generator.
+
+Example:
+
+```js
+var Spark = require('sparkai');
+
+var bot = new Spark.MarkovChain({
+  sentences: 1 // number of sentences (default = 3)
+});
+bot.train(['some data', 'more data']); // can be an array, or a single string
+console.log(bot.generate()); // generates text
+```
 
 ### License
 
