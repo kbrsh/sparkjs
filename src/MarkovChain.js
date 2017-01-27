@@ -1,85 +1,62 @@
-var randomItemFromArray = function(arr) {
-	return arr[Math.floor(Math.random()*arr.length)];
-}
-
 function MarkovChain(opts) {
 	opts = opts || {};
   this.map = opts.map || {};
-  this.frequency = opts.frequency || {};
-  this.lines = opts.lines || [];
   this.vocab = opts.vocab || [];
   this.startWords = opts.startWords || [];
   this.sentences = opts.sentences || 3;
   this.endWords = opts.endWords || {};
-	this.data = opts.data || "";
+	this.seperator = opts.seperator || " ";
 }
 
 MarkovChain.prototype.train = function(data) {
-	this.data = data;
 	if(data.constructor === Array) {
 		for(var i = 0; i < data.length; i++) {
 			this.train(data[i]);
 		}
 		return;
 	}
-  this.lines = this.data.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
-  for(var i = 0; i < this.lines.length; i++) {
-  	var line = this.lines[i];
-    var wordsOne = line.split(" ");
-    var words = [];
-    for(var j = 0; j < wordsOne.length; j+=2) {
-      if(wordsOne[j+1]) {
-        words.push(wordsOne[j] + " " + wordsOne[j+1]);
-      } else {
-        words.push(wordsOne[j]);
-      }
-    }
-    this.startWords.push(words[0]);
-    this.endWords[words[words.length - 1]] = true;
-    for(var j = 0; j < words.length; j++) {
-    	this.vocab.push(words[j]);
-      if(!this.map[words[j]]) {
-      	this.map[words[j]] = [words[j+1]];
-      } else {
-      	this.map[words[j]].push(words[j+1]);
-      }
-    }
-  }
-}
 
-MarkovChain.prototype.generate = function(opts) {
-  opts = opts || {};
-  this.start = randomItemFromArray(this.startWords);
-  if(opts.start) {
-    var totalMatches = this.startWords.filter(function(item){
-      return opts.start.test(item);
-    });
-    this.start = randomItemFromArray(totalMatches);
-  }
-  if(opts.end) {
-    this.endWords = {};
-    this.endWords[opts.end] = true;
-  }
-	var currentWord = this.start;
-  var sentenceCount = 0;
-  var text = [currentWord];
-  while(this.map.hasOwnProperty(currentWord)) {
-  	var next = randomItemFromArray(this.map[currentWord]);
-    text.push(next);
-    currentWord = next;
-    if(this.endWords.hasOwnProperty(next) || this.map[next] === [undefined]) {
-			break;
+	var blocks = data.split(this.seperator);
+	this.startWords.push(blocks[0]);
+	this.endWords[blocks[blocks.length - 1]] = true;
+
+	for(var i = 0; i < blocks.length; i++) {
+		var block = blocks[i];
+		var nextBlock = blocks[i + 1];
+		this.vocab.push(block);
+
+		if(nextBlock) {
+			if(!this.map[block]) {
+				this.map[block] = [nextBlock];
+			} else {
+				this.map[block].push(nextBlock);
+			}
 		}
-  }
-  return text.join(' ');
+	}
 }
 
-MarkovChain.prototype.predict = function(gram) {
-	return randomItemFromArray(this.map[gram]);
+MarkovChain.prototype.randomElement = function(arr) {
+	return arr[Math.floor(Math.random()*arr.length)];
+}
+
+MarkovChain.prototype.getBlock = function() {
+	var word = this.randomElement(this.startWords);
+	var block = [word];
+	while(!this.endWords[word]) {
+		word = this.randomElement(this.map[word]);
+		block.push(word);
+	}
+	return block.join(this.seperator);
+}
+
+MarkovChain.prototype.generate = function() {
+	var block = [];
+	for(var i = 0; i < this.sentences; i++) {
+		block.push(this.getBlock());
+	}
+	return block.join(this.seperator);
 }
 
 MarkovChain.prototype.getState = function() {
 	return this;
 }
-
-var bot = new MarkovChain();
