@@ -32,6 +32,12 @@
   
   MarkovChain.prototype.train = function(data) {
   	this.data = data;
+  	if(data.constructor === Array) {
+  		for(var i = 0; i < data.length; i++) {
+  			this.train(data[i]);
+  		}
+  		return;
+  	}
     this.lines = this.data.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
     for(var i = 0; i < this.lines.length; i++) {
     	var line = this.lines[i];
@@ -91,6 +97,8 @@
   MarkovChain.prototype.getState = function() {
   	return this;
   }
+  
+  var bot = new MarkovChain();
   
   function NaiveBayes(opts) {
   	this.opts = opts || {};
